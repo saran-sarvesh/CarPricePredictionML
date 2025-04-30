@@ -1,49 +1,547 @@
-🚗 Used Car Price Predictor
-<img width="1728" alt="image" src="https://github.com/user-attachments/assets/ceb4304a-22b4-418f-b818-61d4b5cead72" />
-<img width="1728" alt="image" src="https://github.com/user-attachments/assets/38240a2c-4909-4a05-aa56-8e790cccaf85" />
-<img width="747" alt="image" src="https://github.com/user-attachments/assets/8f139af7-ca50-4bf6-8649-270ca18077c5" />
-
-An intelligent machine learning model that accurately predicts the market value of used cars based on their features and specifications.
-
-Overview-
-This project leverages machine learning techniques to predict used car prices using the Random Forest algorithm. By analyzing various car attributes like Year, Present_Price, Kms_Driven, Fuel_Type, Seller_Type, Transmission, and Owner history, the model helps buyers and sellers make informed decisions in the used car market.
-
-
-Key Features
-Random Forest Regressor: Implemented powerful ensemble learning technique
-Feature Analysis: Considers car age, present price, kilometers driven, and more
-Categorical Handling: Proper encoding of categorical features like fuel type and transmission
-Visualization: Includes data visualization to understand feature relationships
-Streamlit App: Interactive web application for easy interaction with the model
-
-Technology Stack
-Language: Python
-ML Libraries: scikit-learn, pandas, numpy
-Model Type: Random Forest Regressor
-Visualization: Matplotlib, Seaborn
-Web Framework: Streamlit
-Data: Car features including Year, Present_Price, Kms_Driven, Fuel_Type, etc.
-
-Model Performance
-The Random Forest Regressor model achieves excellent prediction accuracy on the test data. The model accurately captures the relationships between car features and their selling prices.
-
-
-📊 How It Works
-Data Preprocessing: The raw car data is processed to handle categorical variables and prepare features
-Feature Engineering: Creates useful feature 'Car_Age' based on Year
-Model Training: Trains a Random Forest Regressor model with optimized hyperparameters
-Prediction: Processes user input and returns the predicted selling price
-Streamlit Interface: Provides an interactive, user-friendly web interface to interact with the model
-
-
-🛠️ Future Improvements
-Implement additional regression algorithms for comparison
-Add more advanced feature engineering techniques
-Enhance the web interface with more detailed predictions
-Deploy the model to a cloud platform for wider accessibility
-Add time-series analysis for price trend predictions
-
-📬 Contact
-For questions or feedback, please reach out to:
-
-GitHub: @saran-sarvesh
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Price Prediction ML</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --accent: #10b981;
+            --card-bg: #ffffff;
+            --section-bg: #f1f5f9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .badge-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .badge {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 5px 15px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .sub-heading {
+            font-size: 1.2rem;
+            font-weight: 300;
+            max-width: 700px;
+            margin: 0 auto;
+            margin-top: 20px;
+            line-height: 1.5;
+        }
+        
+        .screenshot-container {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .screenshot {
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            max-width: 100%;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+        
+        .screenshot:hover {
+            transform: scale(1.02);
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+        
+        section:nth-child(odd) {
+            background-color: var(--section-bg);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .section-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .feature-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+        
+        .feature-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .tech-category {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .category-title {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .tech-list {
+            list-style: none;
+        }
+        
+        .tech-list li {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tech-list li:before {
+            content: "•";
+            color: var(--accent);
+        }
+        
+        .workflow {
+            margin-top: 40px;
+        }
+        
+        .workflow-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 30px;
+            position: relative;
+        }
+        
+        .workflow-steps:before {
+            content: "";
+            position: absolute;
+            left: 24px;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background-color: var(--accent);
+            z-index: 1;
+        }
+        
+        .step {
+            display: flex;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .step-number {
+            background-color: var(--accent);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            margin-left: 20px;
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            flex-grow: 1;
+        }
+        
+        .step-title {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .improvements {
+            margin-top: 30px;
+        }
+        
+        .improvement-list {
+            list-style: none;
+        }
+        
+        .improvement-list li {
+            background-color: var(--card-bg);
+            margin-bottom: 15px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .improvement-icon {
+            color: var(--accent);
+            font-size: 1.5rem;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--accent);
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .screenshot-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <h1><i class="fas fa-car"></i> Used Car Price Predictor</h1>
+            <div class="badge-container">
+                <span class="badge"><i class="fas fa-robot"></i> Machine Learning</span>
+                <span class="badge"><i class="fab fa-python"></i> Python</span>
+                <span class="badge"><i class="fas fa-tree"></i> Random Forest</span>
+                <span class="badge"><i class="fas fa-chart-line"></i> Data Science</span>
+            </div>
+            <p class="sub-heading">An intelligent machine learning model that accurately predicts the market value of used cars based on their features and specifications.</p>
+            
+            <div class="screenshot-container">
+                <img src="https://github.com/user-attachments/assets/ceb4304a-22b4-418f-b818-61d4b5cead72" alt="Car Price Predictor Screenshot" class="screenshot">
+                <img src="https://github.com/user-attachments/assets/38240a2c-4909-4a05-aa56-8e790cccaf85" alt="Car Price Predictor Screenshot" class="screenshot">
+                <img src="https://github.com/user-attachments/assets/8f139af7-ca50-4bf6-8649-270ca18077c5" alt="Car Price Predictor Screenshot" class="screenshot">
+            </div>
+        </div>
+    </header>
+    
+    <section>
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-info-circle"></i> Overview</h2>
+            <div class="section-content">
+                <p>This project leverages machine learning techniques to predict used car prices using the Random Forest algorithm. By analyzing various car attributes like Year, Present_Price, Kms_Driven, Fuel_Type, Seller_Type, Transmission, and Owner history, the model helps buyers and sellers make informed decisions in the used car market.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section>
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-star"></i> Key Features</h2>
+            <div class="section-content">
+                <div class="features">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-tree"></i></div>
+                        <h3 class="feature-title">Random Forest Regressor</h3>
+                        <p>Implemented powerful ensemble learning technique for accurate price predictions</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-chart-bar"></i></div>
+                        <h3 class="feature-title">Feature Analysis</h3>
+                        <p>Considers car age, present price, kilometers driven, and more to make informed predictions</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-table"></i></div>
+                        <h3 class="feature-title">Categorical Handling</h3>
+                        <p>Proper encoding of categorical features like fuel type and transmission</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-chart-pie"></i></div>
+                        <h3 class="feature-title">Visualization</h3>
+                        <p>Includes data visualization to understand feature relationships and importance</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-desktop"></i></div>
+                        <h3 class="feature-title">Streamlit App</h3>
+                        <p>Interactive web application for easy interaction with the model</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section>
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-layer-group"></i> Technology Stack</h2>
+            <div class="section-content">
+                <div class="tech-stack">
+                    <div class="tech-category">
+                        <h3 class="category-title"><i class="fas fa-code"></i> Development</h3>
+                        <ul class="tech-list">
+                            <li>Python</li>
+                            <li>scikit-learn</li>
+                            <li>pandas</li>
+                            <li>numpy</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tech-category">
+                        <h3 class="category-title"><i class="fas fa-brain"></i> Model</h3>
+                        <ul class="tech-list">
+                            <li>Random Forest Regressor</li>
+                            <li>Feature Engineering</li>
+                            <li>Categorical Encoding</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tech-category">
+                        <h3 class="category-title"><i class="fas fa-chart-area"></i> Visualization</h3>
+                        <ul class="tech-list">
+                            <li>Matplotlib</li>
+                            <li>Seaborn</li>
+                            <li>Streamlit</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tech-category">
+                        <h3 class="category-title"><i class="fas fa-database"></i> Data</h3>
+                        <ul class="tech-list">
+                            <li>Year</li>
+                            <li>Present_Price</li>
+                            <li>Kms_Driven</li>
+                            <li>Fuel_Type</li>
+                            <li>Seller_Type</li>
+                            <li>Transmission</li>
+                            <li>Owner</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section>
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-chart-line"></i> Model Performance</h2>
+            <div class="section-content">
+                <p>The Random Forest Regressor model achieves excellent prediction accuracy on the test data. The model accurately captures the relationships between car features and their selling prices.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section>
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-cogs"></i> How It Works</h2>
+            <div class="section-content">
+                <div class="workflow">
+                    <div class="workflow-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h3 class="step-title">Data Preprocessing</h3>
+                                <p>The raw car data is processed to handle categorical variables and prepare features</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h3 class="step-title">Feature Engineering</h3>
+                                <p>Creates useful feature 'Car_Age' based on Year</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h3 class="step-title">Model Training</h3>
+                                <p>Trains a Random Forest Regressor model with optimized hyperparameters</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h3 class="step-title">Prediction</h3>
+                                <p>Processes user input and returns the predicted selling price</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                <h3 class="step-title">Streamlit Interface</h3>
+                                <p>Provides an interactive, user-friendly web interface to interact with the model</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section>
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-tools"></i> Future Improvements</h2>
+            <div class="section-content">
+                <div class="improvements">
+                    <ul class="improvement-list">
+                        <li>
+                            <div class="improvement-icon"><i class="fas fa-code-branch"></i></div>
+                            <div>Implement additional regression algorithms for comparison</div>
+                        </li>
+                        <li>
+                            <div class="improvement-icon"><i class="fas fa-microscope"></i></div>
+                            <div>Add more advanced feature engineering techniques</div>
+                        </li>
+                        <li>
+                            <div class="improvement-icon"><i class="fas fa-laptop-code"></i></div>
+                            <div>Enhance the web interface with more detailed predictions</div>
+                        </li>
+                        <li>
+                            <div class="improvement-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                            <div>Deploy the model to a cloud platform for wider accessibility</div>
+                        </li>
+                        <li>
+                            <div class="improvement-icon"><i class="fas fa-chart-area"></i></div>
+                            <div>Add time-series analysis for price trend predictions</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container footer-content">
+            <p>© 2025 Used Car Price Predictor - Created by <a href="https://github.com/saran-sarvesh" style="color: var(--accent); text-decoration: none;">Saran Sarvesh</a></p>
+            <div class="social-links">
+                <a href="https://github.com/saran-sarvesh/CarPricePredictionML" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
