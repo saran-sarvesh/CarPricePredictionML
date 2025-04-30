@@ -1,7 +1,7 @@
 🚗 Used Car Price Predictor
 <img width="1728" alt="image" src="https://github.com/user-attachments/assets/ceb4304a-22b4-418f-b818-61d4b5cead72" />
 <img width="1728" alt="image" src="https://github.com/user-attachments/assets/38240a2c-4909-4a05-aa56-8e790cccaf85" />
-<img width="747" alt="image" src="https://github.com/user-attachments/assets/8f139af7-ca50-4bf6-8649-270ca18077c5" />
+<img width="1728" alt="image" src="https://github.com/user-attachments/assets/499eb78e-8ebd-4850-ac35-de8df295ece4" />
 
 An intelligent machine learning model that accurately predicts the market value of used cars based on their features and specifications.
 
